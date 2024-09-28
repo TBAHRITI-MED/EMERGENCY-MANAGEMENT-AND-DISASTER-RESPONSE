@@ -1,0 +1,11 @@
+tensorflow==2.13.1
+matplotlib==3.2.1
+numpy==1.23.5
+streamlit==0.59.0
+keras
+Pillow==7.1.2
+opencv-python
+djangorestframework
+django
+pytorch
+ml4floods

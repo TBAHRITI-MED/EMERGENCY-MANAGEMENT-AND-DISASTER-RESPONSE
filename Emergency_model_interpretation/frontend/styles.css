@@ -1,0 +1,25 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#upload-form {
+    margin: 20px auto;
+    width: 300px;
+}
+
+#result-container {
+    margin: 20px auto;
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+#prediction {
+    font-weight: bold;
+}

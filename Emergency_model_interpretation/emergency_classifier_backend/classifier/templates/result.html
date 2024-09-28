@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Damage Estimation Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            margin-top: 50px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            background-color: #ffffff;
+            color: #343a40;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .metric {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .navbar, .footer {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 15px 30px;
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .navbar {
+            top: 0;
+        }
+
+        .footer {
+            bottom: 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #66b2ff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> AsphaltNet</a>
+    </nav>
+
+    <div class="container">
+        <h1>Fire Damage Estimation Results</h1>
+        <div class="card">
+            <img src="data:image/png;base64,{{ original_image }}" alt="Original Image">
+            <div class="card-body">
+                <h5 class="card-title">Original Image</h5>
+                <p class="card-text">The uploaded raw satellite image.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="data:image/png;base64,{{ predicted_image }}" alt="Predicted Probability">
+            <div class="card-body">
+                <h5 class="card-title">Predicted Probability</h5>
+                <p class="card-text">The predicted probability of fire damage.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="data:image/png;base64,{{ mask_image }}" alt="Predicted Mask">
+            <div class="card-body">
+                <h5 class="card-title">Predicted Mask</h5>
+                <p class="card-text">The predicted mask indicating fire damage areas.</p>
+            </div>
+        </div>
+        <div class="metric">
+            <h5>CO2 Emission Calculator</h5>
+            <p>The total burnt area is: {{ area }} km<sup>2</sup></p>
+            <p>The total CO2 emitted is: {{ biomass_burnt }} tons</p>
+            <p>This is equivalent to: {{ equal_days }} days of California's daily electricity power emission</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 AsphaltNet. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

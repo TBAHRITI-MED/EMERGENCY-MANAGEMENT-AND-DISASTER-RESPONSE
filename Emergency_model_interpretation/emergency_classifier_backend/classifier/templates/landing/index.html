@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Management - Disaster Response</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #004080;
+            padding-top: 20px;
+            transition: 0.5s;
+            z-index: 1000;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #ffffff;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #0059b3;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #004080;
+            color: white;
+            border: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.5s;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .jumbotron {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .info-section {
+            margin-top: 30px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            color: #343a40;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #343a40;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .lead {
+            color: #ffffff;
+        }
+
+        .my-4 {
+            border-color: #ffffff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li::before {
+            content: "\f00c"; /* FontAwesome check icon */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        a {
+            color: #007bff;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .btn {
+            margin-top: 20px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #003f7f;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .sidebar a { float: left; }
+
+            .openbtn {
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+
+            .content { margin-left: 0; }
+        }
+
+        @media screen and (max-width: 600px) {
+            .sidebar a {
+                text-align: center;
+                float: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#about">About</a>
+        <a href="#phases">Phases</a>
+        <a href="#features">Features</a>
+        <a href="#technology">Technology</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
+
+    <div class="content">
+        <div class="container">
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Emergency Management - Disaster Response</h1>
+                <p class="lead">Utilizing Satellite and Aerial Imagery for Effective Disaster Management and Response</p>
+                <hr class="my-4">
+                <p>Our platform provides real-time monitoring and analysis of disaster-affected areas using advanced satellite and aerial imagery technology.</p>
+                <a href="{% url 'predict_emergency' %}" class="btn btn-primary">Test Disaster Classification</a>
+                <a href="{% url 'predict_fire_damage_map' %}" class="btn btn-primary">Test Fire Damage Estimation</a>
+                <a href="http://127.0.0.1:5000" class="btn btn-primary">Test Flood Damage Estimation</a>
+                <a href="{% url 'real_time_detection' %}" class="btn btn-primary">Real-Time Detection</a> <!-- Added button -->
+            </div>
+
+            <div id="about" class="info-section">
+                <h2>About the Project</h2>
+                <p>This project aims to leverage cutting-edge technology in satellite and aerial imagery to enhance emergency management and disaster response efforts. By integrating machine learning models, we can detect and analyze disaster impacts in real-time, providing crucial information to responders and decision-makers.</p>
+            </div>
+
+            <div id="phases" class="info-section">
+                <h2>Project Phases</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Phase 1: Disaster Classification</h5>
+                        <p class="card-text">In this phase, we classify the type of disaster using satellite and aerial imagery. The model can identify various types of disasters such as fires, floods, and collapsed buildings.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Phase 2: Fire Damage Estimation</h5>
+                        <p class="card-text">Once a fire is detected, this phase involves estimating the damage caused by the fire. The model calculates the CO2 emissions, total burned area, and provides a detailed fire damage map.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Phase 3: Flood Damage Estimation</h5>
+                        <p class="card-text">In case of a flood, this phase estimates the affected area and provides detailed maps showing the extent of the flooding and the potential impact on the region.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="features" class="info-section">
+                <h2>Key Features</h2>
+                <ul>
+                    <li>Real-time monitoring of disaster-affected areas</li>
+                    <li>Advanced image processing using machine learning algorithms</li>
+                    <li>Accurate detection and classification of various disaster types</li>
+                    <li>Integration with existing emergency management systems</li>
+                    <li>Detailed damage estimation maps for fires and floods</li>
+                </ul>
+            </div>
+
+            <div id="technology" class="info-section">
+                <h2>Technology Stack</h2>
+                <p>Our platform utilizes a range of technologies including:</p>
+                <ul>
+                    <li>Satellite and aerial imagery</li>
+                    <li>Deep learning models (e.g., U-Net)</li>
+                    <li>Django for backend development</li>
+                    <li>TensorFlow for machine learning model deployment</li>
+                </ul>
+            </div>
+
+            <div id="contact" class="info-section">
+                <h2>Contact Us</h2>
+                <p>If you have any questions or need further information, please contact us at <a href="mailto:info@disasterresponse.com">info@disasterresponse.com</a>.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Emergency Management - Disaster Response. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.querySelector(".content").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+            document.querySelector(".content").style.marginLeft = "0";
+        }
+    </script>
+</body>
+</html>

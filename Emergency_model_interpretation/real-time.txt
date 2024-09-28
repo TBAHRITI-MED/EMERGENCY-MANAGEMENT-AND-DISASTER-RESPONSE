@@ -1,0 +1,42 @@
+Real-Time Image Classification Application
+Overview
+This Python script implements a real-time image classification application using a pre-trained deep learning model. The application captures frames from the laptop camera, classifies them using the model, and displays the class probabilities in real-time.
+
+Dependencies
+Python 3.x
+OpenCV (opencv-python)
+Keras
+TensorFlow
+Install the required dependencies using pip:
+
+Copy code
+pip install opencv-python keras tensorflow
+Save to grepper
+Usage
+Clone or download the repository to your local machine.
+Place your trained model file (in .h5 format) in the same directory as the script.
+Run the script:
+css
+Copy code
+python real-time.py
+The script will access your laptop's camera and continuously classify the captured frames in real-time.
+Press 'q' to exit the application.
+Code Explanation
+The script begins by loading the pre-trained model using Keras.
+The model expects input images of size (240, 240, 3). If the captured frames from the camera are of a different size, they are resized to match the expected input size.
+The captured frame is preprocessed by converting it to float32 and normalizing it.
+The preprocessed image is passed through the model for inference.
+The model outputs class probabilities for each class label defined in the class_labels dictionary.
+The script continuously captures frames from the camera, classifies them using the model, and displays the class probabilities in real-time using OpenCV.
+Model Overview
+The pre-trained model used in this application is called EmergencyNet. It is designed for real-time image classification on resource-constrained devices such as UAVs (Unmanned Aerial Vehicles).
+
+Key features of the model include:
+
+Atrous Convolutional Feature Fusion (ACFF) block: This block allows for the aggregation of multi-scale contextual information while maintaining the same resolution and reducing the number of parameters. It computes multiple atrous convolutional features for the same input map across different dilation rates.
+Reduced Cost of First Layer: The first layer of the model has a relatively small number of filters (16) to reduce computational cost.
+Early Downsampling: Downsampling is performed at initial layers using a combination of stride and max-pooling layers to reduce information loss.
+Regularization: Additional regularization techniques are incorporated due to the relatively small size of the dataset compared to larger databases such as ImageNet.
+Issues and Troubleshooting
+If you encounter issues related to OpenCV, ensure that it is properly installed and configured on your system. You may need to rebuild OpenCV with the appropriate flags to enable GUI support.
+If you face compatibility issues with the pre-trained model or dependencies, ensure that you have installed compatible versions of Python, Keras, TensorFlow, and OpenCV.

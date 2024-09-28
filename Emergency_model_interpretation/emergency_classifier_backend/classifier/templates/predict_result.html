@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Consistent background with main landing page */
+            color: #343a40; /* Text color matched */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff; /* Light background for better readability */
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-in-out;
+            margin-top: 100px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            color: #007bff; /* Main theme color */
+        }
+
+        .btn-primary {
+            background-color: #0056b3; /* Button color consistent with main theme */
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #003f7f; /* Hover state consistent with main theme */
+        }
+
+        .card {
+            background-color: #ffffff; /* Cards with light background for contrast */
+            color: #343a40;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #007bff; /* Card title color for consistency */
+        }
+
+        .card-text {
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            background-color: #004080; /* Header and footer color match */
+            color: #ffffff;
+            padding: 15px 30px;
+            width: 100%;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .footer a {
+            color: #66b2ff; /* Link color consistent */
+        }
+
+        .footer a:hover {
+            text-decoration: underline; /* Consistency in hover effect */
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .btn-primary {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            .card-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> AsphaltNet</a>
+    </nav>
+
+    <div class="container">
+        <h1>Prediction Result</h1>
+        <!-- Assuming dynamic server-side rendering -->
+        {% if result %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Predicted Class</h5>
+                    <p class="card-text">{{ result.class }}</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Confidence Level</h5>
+                    <p class="card-text">{{ result.confidence | floatformat:2 }}</p>
+                </div>
+            </div>
+        {% elif error %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Error</h5>
+                    <p class="card-text">{{ error }}</p>
+                </div>
+            </div>
+        {% endif %}
+        
+        <a href="{% url 'home' %}" class="btn btn-primary mt-4">Back to Home</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 AsphaltNet. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

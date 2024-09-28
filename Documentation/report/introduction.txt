@@ -1,0 +1,72 @@
+Over the past few years Unmanned Aerial Vehicles (UAVs)/drones have gained considerable interest as a remote
+sensing platform for various practical applications, such as traffic monitoring, search and rescue, and precision
+agriculture , and satelite imagery processing . Recent technological advances such as the integration of camera
+sensors provide the opportunity for new UAV applications such as detect, monitor and analyze passive and active threats
+and hazards at incident scenes (e.g., fire spots in forested areas, flooding threat, road collisions, landslide prone areas) .
+In addition, due to their small size UAVs offer fast deployment and can thus be in-the-loop of mission critical decisions
+to better manage the available resources and improve risk assessment, prevention, and mitigation . However, there is
+ a unique set of constraints that need to be addressed due to the fact that a UAV has to operate in disaster-stricken areas
+where remote communication to cloud services may not be possible to be established and high-end infrastructure is not
+available. As a result, a higher level of autonomy is required to ensure operational efficiency and real-time analysis. In
+such cases an autonomous UAV relies heavily on its on-board sensors and microprocessors to carry out a given task
+without requiring the feed to be send to a central ground station. Furthermore, the autonomous operation of UAVs by
+combining path planning algorithms with automated on-board visual processing enables them to cover a larger area in
+less time . However, on-board processing comes with its own set of challenges due to the limited computational
+resources and low-power constraints which are necessitated by the low-payload capabilities of UAVs. As such, the
+computational efficiency of the underlying computer vision algorithm plays a key role in enabling autonomous UAVs to
+detect hazards at incident scenes in real-time.
+
+
+Deep learning algorithms such as Convolutional Neural Networks (CNNs) have been widely recognized as a prominent
+approach for many computer vision applications (image/video recognition, detection, and classification) and have
+shown remarkable results in many applications . Hence, there are many benefits stemming from using deep
+learning techniques in emergency response and disaster management applications to retrieve critical information in a
+timely-fashion and enable better preparation and reaction during time-critical situations and support in-the-loop decision 
+making processes . Prior works have demonstrated how deep learning approaches can overcome traditional machine
+learning methods with hand-crafted features through the use of transfer learning where a pretrained convolutional neural
+network is used as a feature extractor and one or more layers are added on top to perform the classification for the new
+task . Even though CNNs are increasingly successful at classification tasks, their inference speed on embedded
+low-power platforms such as those found on-board UAVs is hindered by the high computational cost that they incur
+, especially when considering the need to run multiple vision tasks on the same platform. As such, for many
+applications local embedded processing near the sensor is preferred over the cloud due to privacy or latency concerns,
+or operation in remote areas where there is limited or even no connectivity. In addition, purpose built small networks
+can provide the necessary accuracy and performance for niche applications where abundant data is not available and
+computational constraints are imposed. Also, beyond the computational efficiency they are faster to go through training
+iterations and more easily updatable over-the-air. Hence, using a small CNN that is amicable for near-sensor (edge)
+processing to perform the aerial scene classification on board a UAV becomes a very attractive and sensible alternative
+to standard approaches.
+
+
+This work addresses the problem of on-board aerial scene classification which is to automatically assign a semantic
+label to characterize the aerial image that the UAV captures. With respect to emergency response applications these
+labels correspond to a danger or hazard that has occurred. Such a system can be deployed into UAVs for automated
+monitoring and inspection to enhance preparedness and provide rapid situational awareness. The specific use-case under
+consideration is that a UAV will follow a predetermined path as shown in and will continuously analyze the frames
+it receives from the camera through its embedded platform and alert for any potential hazards or dangerous situations
+that it recognizes as shown in Fig. 1. The objective of this work is to enhance the real-time perception capabilities
+in such scenarios through the development of a CNN model that provides the best trade-off between accuracy and
+performance and can operate on embedded hardware that is on-board the UAV or its mobile control station. The
+preliminary work in ,is significantly extended by proposing a lightweight CNN, referred to as EmergencyNet, based
+on depthwise atrous convolutions enabling it to gather multi-resolution features in a computationally efficient manner
+thus managing to provide adequate trade-off between accuracy and speed for the problem of emergency response
+monitoring with UAVs. Further, the dataset is significantly enlarged and perform an extended comparison with other
+models and also propose further optimizations to improve performance in certain use-cases.
+The main contributions of this work are summarized as follows:
+• A dedicated database for the application of aerial image2
+classification for emergency response which contains
+a larger number of images compared to existing datasets.
+• A novel and computationally efficient CNN (referred to as EmergencyNet) is proposed that combines multi resolution 
+depthwise convolutions to simultaneously provide near state-of-the-art accuracy (∼ 95.7%) while
+being up to ∼ 20× faster,and suitable for low-cost low-power devices.
+• Study and analyze the impact of different CNN architectures for the task of aerial scene classification of
+disasters and evaluation in terms of accuracy, inference speed, and memory.
+• Evaluation of the different models using an actual experimental setup consisting of a UAV with two processing
+options an embedded computing platform and a mobile ground station.
+
+
+The rest of this report is structured as follows. Section 2 provides the background on convolutional neural network
+architectures and outlines previous work on the area of aerial image classification for emergency response and disaster
+management. Section 3 provides details on the constructed dataset for aerial image classification of disasters as well
+as the techniques used to develop the proposed network. Section 4 presents an analysis of the different models and
+techniques as well as evaluation on a real experimental UAV platform. Finally, Section 5 provides concluding remarks
+and discusses directions for future work in this area.

@@ -1,0 +1,171 @@
+This section outlines the process of developing an efficient convolutional neural network suitable for embedded platforms
+for classifying aerial images from a UAV for emergency response and disaster management applications. Specifically, it
+details how the training set for this problem was collected, and the different networks used for analysis and comparison
+both through transfer learning of pretrained networks and custom networks along with the design choices made to
+develop them. Finally, the details of the training process are provided.
+
+3.1 Dataset Collection
+
+Training a CNN for aerial image classification for emergency response and disaster management applications first
+requires collecting a suitable dataset for this task. To the best of our knowledge there is no widely used and publicly
+available dataset for emergency response applications. As such, a dedicated database for this task is constructed
+referred to as AIDER (Aerial Image Dataset for Emergency Response Applications). The dataset construction involved
+manually collecting all images for four disaster events, namely Fire/Smoke, Flood, Collapsed Building/Rubble, and
+Traffic Accidents, as well as one class for the Normal case. Visually similar images such as for example active flames
+and smoke are grouped together. A finer-level classification is possible but is left as future work.
+The aerial images for the disaster events were collected through various online sources (e.g. google images, bing images,
+youtube, news agencies web sites, etc.) using the keywords "Aerial View" or "UAV" or"Drone" and an event such
+as "Fire","Earthquake","Highway accident", etc. Images are initially of different sizes but are standardized prior to
+training. All images where manually inspected to first contain the event that was of interested and then to have the event
+centered at the image so that any geometric transformations during augmentation would not remove it from the image
+view. During the data collection process the various disaster events were captured with different resolutions and under
+various condition with regards to illumination and viewpoint. Finally, to replicate real world scenarios the dataset is
+imbalanced in the sense that it contains more images from the Normal class. Of course, this can make the training more
+challenging, however, an appropriate strategy is followed to combat this during training which will be detailed in the
+following sections.
+
+fig 2
+
+tab1
+
+The operational conditions of the UAV may vary depending on the environment, as such it is important that the dataset
+does not contain only "clean" and "clear" images. In addition, data-collection can be time-consuming and expensive.
+Hence to further enhance the dataset a number random augmentations are probabilistically applied to each image prior
+to adding it to the batch for training. Specifically these are geometric transformations such as rotations, translations,
+horizontal axis mirroring, cropping and zooming, as well as image manipulations such as illumination changes, color
+shifting, blurring, sharpening, and shadowing. In addition, sample pairing is also employed to mix images together
+and further enhance the training set . Each transformation is applied with a random probability which is set in
+such as way to ensure that not all images in a training batch are transformed so that the network does not capture
+the augmentation properties as a characteristic of the dataset. The objective of all this transformations is to combat
+overfitting and increase the variability in the training size to achieve a higher generalization capability. Some samples
+from the dataset can be seen in Fig. 2. Overall, with respect to the related works that consider multiclass problems
+almost 17× more data were collected. The dataset does not contain the amount of images found in common
+benchmarks such as ImageNet and CIFAR however, it is much more challenging to encounter such real-life events and
+capture adequate data. As such, augmentations techniques were utilized to enhance the initial dataset even further. This,
+in our opinion, appoints AIDER to a valuable complementary data source for developing and benchmarking data-driven
+methodologies for emergency response and disaster monitoring applications.
+
+
+3.2 CNNs for Aerial Disaster Classification
+
+To identify the best structure of the CNN that will perform the aerial image classification a number of different networks
+was developed using two different approaches. The overall objective of this process is to explore the performance 
+accuracy trade-offs between these networks. First, transfer learning is employed to train the networks outlined in Section
+2.1 which correspond to the methodology used in prior works. Furthermore, new network structures are designed and
+trained from scratch specifically for this task. The reasoning behind the latter approach is that it allows making those
+design choices that lead to more efficient networks that are fast to execute on embedded platforms and at the same time
+maintain the accuracy of larger networks.
+3.2.1 Transfer Learning Networks
+For transfer learning different networks from the literature, VGG16[40], ResNet50[9] FireNet[50], MobileNets[13, 36,
+12], Xception[7], ShuffleNet[27], EfficientNet [44], and SqueezeNet[14]. The majority of these networks hace also been
+used in related works [17, 39, 18].
+The feature extraction part is frozen for each of these networks, applying all necessary preprocessing steps to the
+input image, and add a classification layer on top similar to prior works. In contrast to other works a global (per
+feature-map) average-pooling layer is applied prior to the dense layers followed by a softmax classification layer at the
+end. The average pooling reduces the parameter count and the subsequent computational and memory requirements
+and has shown to perform equally as well with the traditional approaches [26]. Hence, the pretrained models used for
+comparison are inherently more efficient in terms of memory and operations that the networks used in the literature for
+this task, which utilize fully connected layers.
+
+3.2.2 Custom Networks
+
+Fine-tuning pretrained networks has some critical limitations. The preterained networks have different degrees of
+sensitivity depending on how the dataset is similar to the large-scale dataset used (e.g., ImageNet) [21]. The larger
+and deeper networks attained through transfer learning may not be suited for resource-constraint systems such as UAV
+platforms, which impose limitations of the size of the platform, the weight, and its power envelope. Furthermore,
+it is inconvenient to change the architecture of existing networks since the pretraining should be re-conducted on
+the large-scale dataset (e.g., ImageNet), requiring high computational cost. For this reason there is a need to design
+specialized networks that are inherently computationally efficient to eliminate the aforementioned limitations [51].
+The design space is explored by focusing on the layer configurations, type and connectivity. Consequently different
+networks are developed to better understand the trade-offs involved in the design choices. There are some systematic
+design choices that are made across the different network configurations. As a primary building block an architecture is
+developed that relies on fusing features produced by atrous convolutions of different degrees of dilation [5] and such
+architectures have primarily been used for segmentation tasks. They are employed herein as a means to simultaneously
+learn features at various resolutions more efficiently thus facilitating UAV applications which encounter areas of interest
+at different scales. The proposed architecture allows for flexible aggregation of the multi-scale contextual information
+while keeping the same resolution and reduced number of parameters. The Atrous Convolutional Feature Fusion (ACFF)
+block is detailed next.
+
+
+3.3 Atrous Convolutional Feature Fusion (ACFF)
+
+Atrous (also called dilated) convolutions [5] can capture and transform images at different resolutions depending on the
+dilation rate which determines the spacing between the kernel points, effectively increasing their receptive field without
+increasing the parameter count. Hence, it can be used to incorporate larger context to the model. The proposed block
+(Fig. 3) computes multiple such atrous convolutional features (Ud) for the same input map as shown in Eq. (1) across
+different dilation rates d. Each atrous convolution is factored into depth-wise convolution that performs light-weight
+filtering by applying a single convolutional kernel per input channel to reduce the computational complexity. Then
+some form of fusion takes place to merge the different features together as shown in Eq. 2. The intuition is to take
+advantage of the different dilation rates since one path may peek up features that another may have missed due to
+changes in object/region resolution. It is important to note that the weights are not shared between paths and each learns
+different weights wd that may be more useful. Another advantage of using atrous convolutions stems from the fact that
+the same number of parameters and computations are needed regardless of the resolution. Each atrous convolution acts
+on the same feature map but at a different spatial resolution; starting from a dilation rate of 1 and filter size of 3 × 3
+(i.e., no spacing) and going up to 3 which is equivalent to 7 × 7 receptive field effectively looking at the same area with
+different kernels but with less number of parameters utilized as shown in Table 2.
+
+An essential part of optimized CNNs is reducing not only the spatial size of feature maps but also the channel dimensions.
+Hence, prior to the atrous convolutions the input feature map channels are halved. This makes it possible to have
+multiple branches for atrous convolution without significantly impacting the performance. The depth reduction factor is
+a hyperparameter that can be further tuned depending on the requirements. Therefore, a bottleneck layer is utilized to
+reduce the number of channels after reshaping without changing the spatial size of the feature maps.
+The atrous convolutional features at different dilation rates need to be combined together to allow the unit to learn from
+representations from a large effective receptive field. Four different fusion maps are examined maximum, addition,
+concatenation, and averaging as shown in Fig. 4. The fusion mechanism is then followed by 1 × 1 convolutions
+and activation that non-linearly combine channel features together and projects them into a higher dimensional space.
+Finally, each atrous convolutional block is followed by batchnormalization and an activation.
+
+tab2
+
+
+3.4 Macro-Architecture Design Choices
+
+The ACFF macro block is used as a starting point to build a deep neural network that is characterized by lowcomputational complexity and is suitable for embedded platforms. The following design choices are made for the
+overall network structure which is illustrated in Table 3.
+• Reduced Cost of First Layer: The first layer typically incurs the higher computational cost since it is applied
+across the whole image. Hence, a relatively small number of filters is selected (16) with spatial resolution of
+3 × 3. A standard convolution layer is used here to better capture low-level image features. A stride of 2 is
+used to reduce the computations.
+• Early downsampling: Downsampling is performed at all the initial layers. A combination of stride and
+max-pooling layers are used in an effort to reduce the loss of information by aggressive striding, but still
+reduce the spatial resolution. It was empirically found that downsizing the feature maps in the latter stages
+resulted in decreased accuracy hence, the downsampling is performed in the first four layers.
+• Canonical Architecture: To keep the representational expressiveness a pyramid-shaped form is adopted for
+the CNN configuration, which means a progressive reduction of spatial resolution of the feature maps at each
+layer with an increase of their depth. It is quite typical for large networks to have even thousands of filters at
+each layer, however, for embedded applications this adds considerable overhead. Hence, the first layer has
+16 filters, which are then increased thereafter but does not go beyond 256 which is the final layer prior to the
+classification part.
+
+tab3
+ 
+• Fully Convolutional Architecture: A simple and effective trick is utilized to massively reduce the parameter
+count and computational cost by avoiding the use of fully connected layers. Instead, a channel-wise 1 × 1
+convolution is used to reduce the channels to the number of classes, followed by a global average pooling
+operation that summarized the per class feature maps and which is fed to a softmax layer.
+• Capped leaky relu: A capped version of ReLU is used, similar to [36], as the main non-linearity across the
+network due to its robustness when used with low-precision computation. Specifically, the output is upper
+bounded at 255 which can be approximated with an 8 bit integer. Even though quantization is not not exploited
+here, by utilizing this ReLU variant, the network is amicable to further improvements. Moreover, the modified
+capped leaky ReLU has two modes of operation. During training phase it allows the small fraction of gradient
+to flow, whereas in the inference phase that part is zeroed out allowing for quantization if necessary.
+• Regularization: Due to the relatively small size of the dataset compared to databases such as ImageNet;
+additional regularization techniques are also incorporated beyond augmentation to combat overfitting. In
+particular, batch normalization [16] is used after the atrous convolutions, 1 × 1 convolutions, as well as depth
+reduction operations. A dropout layer with rate 0.2 is applied after the layers which have the highest number
+of parameters. As with other works L2 weight regularization with a parameter of 5 × 10−4 was found to be
+effective in helping the network learn faster and achieve lower error rates.ca
+• Network Depth: Deep networks are necessary to build strong representations but are also predicated on
+having a huge amount of data. Also very deep networks incur a higher computational cost. Given these two
+factors it was empirically found that a network size of 6 ACFF blocks was sufficient to achieve comparable
+accuracy to the sate-of-the-art, while increasing it did not result in significant accuracy improvements but
+incurred higher computational cost.
+• Skip Connection Fusion: A significant amount of information can be lost during the aggressive downwsampling process.
+ To preserve some of the initial information the input feature map is also included into the fusion
+process.
+The aforementioned configurations are combined to build the base EmergencyNet architecture shown in Table 3.
+Different modes of fusing together the feature maps have been evaluated along with base implementations of standard
+convolution, depth-wise convolution networks, and spatially-separable convolutions in order to compare and contrast
+the trade-offs. These results are presented in section **
+
+

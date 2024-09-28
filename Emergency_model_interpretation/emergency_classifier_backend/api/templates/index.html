@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Flood Damage Image</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Match landing page background */
+            color: #343a40; /* Adjust text color to match landing page style */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff; /* Match card backgrounds on the landing page */
+            padding: 40px 50px;
+            border-radius: 10px; /* Consistent border radius */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Consistent shadow effect */
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #007bff; /* Primary color for titles */
+        }
+
+        .btn-primary {
+            background-color: #0056b3; /* Match button colors from the landing page */
+            color: #ffffff; /* Ensure text is white for readability */
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #003f7f; /* Darker shade on hover to match landing page style */
+        }
+
+        .form-control-file {
+            margin: 20px auto;
+            padding: 15px;
+            font-size: 16px;
+            color: #333;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background: #ffffff; /* Background match for consistency */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        .form-control-file:hover {
+            border-color: #007bff; /* Primary color on hover for input field */
+        }
+
+        .navbar, .footer {
+            background-color: #004080; /* Header and footer color match */
+            color: #ffffff; /* Text color for readability */
+            padding: 15px 30px;
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .navbar {
+            top: 0;
+        }
+
+        .footer {
+            bottom: 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #66b2ff; /* Link color to stay consistent */
+        }
+
+        .footer a:hover {
+            text-decoration: underline; /* Underline on hover for clarity */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> AsphaltNet</a>
+    </nav>
+
+    <div class="container">
+        <h1>Upload an Image</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="file" class="form-control-file" required />
+            </div>
+            <div class="form-group">
+                <label for="experiment_name">Experiment Name:</label>
+                <select name="experiment_name" id="experiment_name" class="form-control" required>
+                    <option value="WF2_unet">WF2_unet</option>
+                    <option value="WFV1_scnn20">WFV1_scnn20</option>
+                    <option value="WFV1_unet">WFV1_unet</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Upload</button>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 AsphaltNet. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

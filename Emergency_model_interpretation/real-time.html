@@ -1,0 +1,71 @@
+<div>
+  Note: This is for demo purposes only and may not work that well through the
+  webcam...
+</div>
+<div>Present an image to the webcam - either printed or through your phone</div>
+<div id="result"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+<script type="text/javascript">
+  // Classifier Variable
+  let classifier;
+  // Model URL
+  let imageModelURL =
+    "https://teachablemachine.withgoogle.com/models/txsFjERHD/";
+  // Video
+  let video;
+  let flippedVideo;
+  // To store the classification
+  let label = "";
+
+  // Load the model first
+  function preload() {
+    classifier = ml5.imageClassifier(imageModelURL + "model.json");
+  }
+
+  function setup() {
+    createCanvas(640, 480);
+    // Create the video
+    video = createCapture(VIDEO);
+    video.size(640, 480);
+    video.hide();
+    flippedVideo = ml5.flipImage(video);
+    // Start classifying
+    classifyVideo();
+  }
+
+  function draw() {
+    background(0);
+    // Draw the video
+    image(flippedVideo, 0, 0);
+    // Draw the label
+    fill(255);
+    textSize(16);
+    textAlign(CENTER);
+    text(label, width / 2, height - 16);
+  }
+
+  // Get a prediction for the current video frame
+  function classifyVideo() {
+    flippedVideo = ml5.flipImage(video);
+    classifier.classify(flippedVideo, gotResult);
+    flippedVideo.remove();
+  }
+
+  // When we get a result
+  function gotResult(error, results) {
+    // If there is an error
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // Update the label and result div
+    label = results[0].label;
+    document.getElementById("result").textContent = `Prediction: ${label}`;
+
+    // Classify again!
+    classifyVideo();
+  }
+</script>

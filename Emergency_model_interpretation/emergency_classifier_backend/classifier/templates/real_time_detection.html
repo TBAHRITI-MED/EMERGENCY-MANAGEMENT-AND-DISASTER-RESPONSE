@@ -1,0 +1,49 @@
+<!-- real_time_detection.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Detection</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            border: 5px solid #007bff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .video-container img {
+            width: 100%;
+            height: auto;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Real-Time Emergency Detection</h1>
+        <div class="video-container">
+            <img id="video" src="{% url 'video_feed' %}">
+        </div>
+    </div>
+</body>
+</html>

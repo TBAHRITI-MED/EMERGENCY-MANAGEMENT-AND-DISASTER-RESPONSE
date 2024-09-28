@@ -1,0 +1,17 @@
+Deep Learning based algorithms can provide state-of-the-art accuracy for remote sensing technologies
+such as Unmanned Aerial Vehicles (UAVs)/drones, potentially enhancing their remote sensing
+capabilities for many emergency response and disaster management applications. In particular,
+UAVs equipped with camera sensors can operating in remote and difficult to access disaster-stricken
+areas, analyze the image and alert in the presence of various calamities such as collapsed buildings,
+flood, or fire in order to faster mitigate their effects on the environment and on human population.
+However, the integration of deep learning introduces heavy computational requirements, preventing
+the deployment of such deep neural networks in many scenarios that impose low-latency constraints
+on inference, in order to make mission-critical decisions in real-time. To this end, this paper focuses
+on the efficient aerial image classification from on-board a UAV for emergency response/monitoring
+applications. Specifically, a dedicated Aerial Image Database for Emergency Response (AIDER)
+applications is introduced and a comparative analysis of existing approaches is performed. Through
+this analysis a lightweight convolutional neural network (CNN) architecture is proposed, referred
+to as EmergencyNet, based on atrous convolutions to process multiresolution features and capable
+of running efficiently on low-power embedded platforms achieving upto 20× higher performance
+compared to existing models with minimal memory requirements with less than 1% accuracy drop
+compared to state-of-the-art models.
